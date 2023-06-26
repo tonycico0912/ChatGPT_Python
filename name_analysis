@@ -1,0 +1,68 @@
+import hgtk
+
+# 자음과 모음 값 정의
+char_value = {
+    "ㄱ": 1,  # 자음 'ㄱ'에 대한 값은 1
+    "ㄴ": 1,  # 자음 'ㄴ'에 대한 값은 1
+    "ㄷ": 2,  # 자음 'ㄷ'에 대한 값은 2
+    "ㄹ": 3,  # 자음 'ㄹ'에 대한 값은 3
+    "ㅁ": 3,  # 자음 'ㅁ'에 대한 값은 3
+    "ㅂ": 4,  # 자음 'ㅂ'에 대한 값은 4
+    "ㅅ": 2,  # 자음 'ㅅ'에 대한 값은 2
+    "ㅇ": 2,  # 자음 'ㅇ'에 대한 값은 2
+    "ㅈ": 3,  # 자음 'ㅈ'에 대한 값은 3
+    "ㅊ": 4,  # 자음 'ㅊ'에 대한 값은 4
+    "ㅋ": 2,  # 자음 'ㅋ'에 대한 값은 2
+    "ㅌ": 3,  # 자음 'ㅌ'에 대한 값은 3
+    "ㅍ": 4,  # 자음 'ㅍ'에 대한 값은 4
+    "ㅎ": 4,  # 자음 'ㅎ'에 대한 값은 4
+    "ㅏ": 2,  # 모음 'ㅏ'에 대한 값은 2
+    "ㅑ": 3,  # 모음 'ㅑ'에 대한 값은 3
+    "ㅓ": 2,  # 모음 'ㅓ'에 대한 값은 2
+    "ㅕ": 3,  # 모음 'ㅕ'에 대한 값은 3
+    "ㅗ": 2,  # 모음 'ㅗ'에 대한 값은 2
+    "ㅛ": 3,  # 모음 'ㅛ'에 대한 값은 3
+    "ㅜ": 2,  # 모음 'ㅜ'에 대한 값은 2
+    "ㅠ": 3,  # 모음 'ㅠ'에 대한 값은 3
+    "ㅡ": 1,  # 모음 'ㅡ'에 대한 값은 1
+    "ㅣ": 1,  # 모음 'ㅣ'에 대한 값은 1
+}
+
+# 복합 모음 분해 함수
+def decompose_diphthong(vowel):
+    """
+    복합 모음을 분해하는 함수.
+    Args:
+        vowel (str): 분해할 복합 모음
+    Returns:
+        list: 분해된 모음들의 리스트
+    """
+    if vowel in ['ㅘ', 'ㅙ']:
+        return ['ㅗ', 'ㅏ']
+    elif vowel == 'ㅚ':
+        return ['ㅗ', 'ㅣ']
+    elif vowel in ['ㅝ', 'ㅞ']:
+        return ['ㅜ', 'ㅓ']
+    elif vowel == 'ㅟ':
+        return ['ㅜ', 'ㅣ']
+    elif vowel == 'ㅢ':
+        return ['ㅡ', 'ㅣ']
+    else:
+        return [vowel]
+
+# 사용자로부터 이름 입력 받기
+name = input("이름을 입력해주세요: ")
+
+# 각 글자에 대해 분해 후 값 계산
+for char in name:
+    cho, jung, jong = hgtk.letter.decompose(char)
+    syllable_value = 0
+    calc_str = []
+    for c in [cho] + decompose_diphthong(jung) + [jong]:
+        if c:  # 공백 문자는 제외
+            value = char_value.get(c, 0)  # 값이 정의되지 않은 문자는 0으로 처리
+            syllable_value += value
+            calc_str.append(f"{c}={value}")
+    print(f"{char} = {' + '.join(calc_str)} = {syllable_value}")
+
+ 
